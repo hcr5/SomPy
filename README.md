@@ -1,5 +1,3 @@
-## Jeugdjournaal API Documentation
-
 ### Functions
 ---
 #### `jeugdjournaal.get_poll_hashes(item_id)`
