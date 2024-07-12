@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='jeugdjournaal',
-    version='0.1.1',
+    version='0.1.4',
     author='hcr5',
     author_email='hcr5.hcr@gmail.com',
     description='Python library to interact with the jeugdjournaal API',
