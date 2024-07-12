@@ -30,4 +30,4 @@ comments = jj.get_comments(article_id, limit=10)
 print(comments)
 ```
 # Documentation
-A detailed documentation can be found [here](https://github.com/hcr5/SomPy/blob/main/docs.md)
+A full documentation can be found [here](https://github.com/hcr5/SomPy/blob/main/docs.md)
