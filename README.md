@@ -1,7 +1,7 @@
 # Jeugdjournaal Python
 
 ## Overview
-The `jeugdjournaal` library simplifies interaction with the Jeugdjournaal website and API ((https://jeugdjournaal.nl)). It provides functionalities to retrieve article details, participate in polls, read/post comments, and explore articles.
+The `jeugdjournaal` library simplifies interaction with the Jeugdjournaal website and API (https://jeugdjournaal.nl). It provides functionalities to retrieve article details, participate in polls, read/post comments, and explore articles.
 
 ## Installation
 You can install `jeugdjournaal` via pip:
