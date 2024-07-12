@@ -120,6 +120,6 @@ Retrieves reactions to a specific comment associated with an article.
 
 ##### Example:
 ```python
-reactions = jeugdjournaal.get_comment_reactions('2528544', '12345', 5)
+reactions = jeugdjournaal.get_comment_reactions('2528544', '5983554', 5)
 print(reactions)
 ```
