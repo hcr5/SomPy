@@ -2,7 +2,7 @@ import requests as _requests
 from bs4 import BeautifulSoup as _BeautifulSoup
 import json as _json
 
-def get_poll_hashes(item_id):
+def get_poll_ids(item_id):
     try:
         response = _requests.get(f"https://jeugdjournaal.nl/artikel/{item_id}")
         response.raise_for_status()
@@ -38,11 +38,18 @@ def get_poll_hashes(item_id):
                 hash_2_name = answers[1].get('text')
                 break
     
+    if not hash_1 or not hash_2:
+        raise Exception(f"No poll IDs found for {item_id}, maybe it doesn't contain any polls?")
+        
     return {
-        "hash_1": hash_1,
-        "hash_1_name": hash_1_name,
-        "hash_2": hash_2,
-        "hash_2_name": hash_2_name
+        "id_1": {
+            "id": hash_1,
+            "text": hash_1_name
+        },
+        "id_2": {
+            "id": hash_2,
+            "text": hash_2_name
+        }
     }
 
 
@@ -56,6 +63,33 @@ def vote_in_poll(vote_hash):
     
     return response.json()
 
+def get_poll_data(item_id):
+    try:
+        response = _requests.get(f"https://jeugdjournaal.nl/artikel/{item_id}")
+        response.raise_for_status()
+    except _requests.exceptions.RequestException as e:
+        raise Exception(f"Error fetching article {item_id}: {e}")
+    
+    soup = _BeautifulSoup(response.text, 'html.parser')
+    next_data_script = soup.find('script', id='__NEXT_DATA__')
+    if not next_data_script:
+        raise Exception("Next data script not found")
+    
+    json_str = next_data_script.string
+    try:
+        data = _json.loads(json_str)
+    except _json.JSONDecodeError as e:
+        raise Exception(f"Error decoding JSON data: {e}")
+    
+    poll_results = {}
+    
+    for item in data["props"]["pageProps"]["data"]["content"]:
+        if item["type"] == "poll":
+            poll_results["totalVotes"] = item["content"]["noOfVotes"]
+            poll_results["answers"] = [{"text": answer["text"], "votes": answer["votes"]} for answer in item["content"]["answers"]]
+            break
+    
+    return poll_results
 
 def get_comments(item_id, limit):
     try:
@@ -147,12 +181,12 @@ def get_items():
     }
 
 
-def read_item(id):
+def read_item(item_id):
     try:
-        r = _requests.get(f"https://jeugdjournaal.nl/artikel/{id}")
+        r = _requests.get(f"https://jeugdjournaal.nl/artikel/{item_id}")
         r.raise_for_status()
     except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error reading article {id}: {e}")
+        raise Exception(f"Error reading article {item_id}: {e}")
     
     soup = _BeautifulSoup(r.content, 'html.parser')
 
