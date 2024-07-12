@@ -1,10 +1,7 @@
 ## Jeugdjournaal API Documentation
 
-### Introduction
-This documentation outlines functions to interact with the Jeugdjournaal website and API, allowing users to retrieve articles, participate in polls, and manage comments.
-
 ### Functions
-
+---
 #### `jeugdjournaal.get_poll_hashes(item_id)`
 Retrieves poll information from a specific article identified by `item_id`.
 
@@ -19,6 +16,8 @@ Retrieves poll information from a specific article identified by `item_id`.
 poll_hashes = jeugdjournaal.get_poll_hashes('123456')
 print(poll_hashes)
 ```
+
+---
 
 #### `jeugdjournaal.vote_in_poll(vote_hash)`
 Votes in a poll using the provided `vote_hash`.
@@ -35,6 +34,8 @@ vote_response = jeugdjournaal.vote_in_poll('abcdef123456')
 print(vote_response)
 ```
 
+---
+
 #### `jeugdjournaal.get_comments(item_id, limit)`
 Retrieves comments associated with a specific article.
 
@@ -50,6 +51,8 @@ Retrieves comments associated with a specific article.
 comments = jeugdjournaal.get_comments('123456', 10)
 print(comments)
 ```
+
+---
 
 #### `jeugdjournaal.post_comment(item_id, name, content)`
 Posts a comment to a specific article.
@@ -68,6 +71,8 @@ comment_response = jeugdjournaal.post_comment('123456', 'John Doe', 'This is a g
 print(comment_response)
 ```
 
+---
+
 #### `jeugdjournaal.get_items()`
 Retrieves a list of articles currently featured on the Jeugdjournaal homepage.
 
@@ -80,6 +85,8 @@ items = jeugdjournaal.get_items()
 for item in items:
     print(item['title'], item['id'])
 ```
+
+---
 
 #### `jeugdjournaal.read_item(id)`
 Retrieves details of a specific article identified by `id`.
