@@ -73,4 +73,3 @@ Reads and retrieves content from an article.
 item_content = jeugdjournaal.read_item(2528544)
 print(item_content)
 ```
-```
