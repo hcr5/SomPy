@@ -1,5 +1,3 @@
-### Functions
----
 #### `jeugdjournaal.get_poll_hashes(item_id)`
 Retrieves poll information from a specific article identified by `item_id`.
 
