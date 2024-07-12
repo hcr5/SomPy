@@ -1,8 +1,11 @@
-## JeugdjournaalPy Documentation
+## Jeugdjournaal API Documentation
+
+### Introduction
+This documentation outlines functions to interact with the Jeugdjournaal website and API, allowing users to retrieve articles, participate in polls, and manage comments.
 
 ### Functions
 
-#### `get_poll_hashes(item_id)`
+#### `jeugdjournaal.get_poll_hashes(item_id)`
 Retrieves poll information from a specific article identified by `item_id`.
 
 - **Parameters:**
@@ -13,11 +16,11 @@ Retrieves poll information from a specific article identified by `item_id`.
 
 ##### Example:
 ```python
-poll_hashes = get_poll_hashes('123456')
+poll_hashes = jeugdjournaal.get_poll_hashes('123456')
 print(poll_hashes)
 ```
 
-#### `vote_in_poll(vote_hash)`
+#### `jeugdjournaal.vote_in_poll(vote_hash)`
 Votes in a poll using the provided `vote_hash`.
 
 - **Parameters:**
@@ -28,11 +31,11 @@ Votes in a poll using the provided `vote_hash`.
 
 ##### Example:
 ```python
-vote_response = vote_in_poll('abcdef123456')
+vote_response = jeugdjournaal.vote_in_poll('abcdef123456')
 print(vote_response)
 ```
 
-#### `get_comments(item_id, limit)`
+#### `jeugdjournaal.get_comments(item_id, limit)`
 Retrieves comments associated with a specific article.
 
 - **Parameters:**
@@ -44,11 +47,11 @@ Retrieves comments associated with a specific article.
 
 ##### Example:
 ```python
-comments = get_comments('123456', 10)
+comments = jeugdjournaal.get_comments('123456', 10)
 print(comments)
 ```
 
-#### `post_comment(item_id, name, content)`
+#### `jeugdjournaal.post_comment(item_id, name, content)`
 Posts a comment to a specific article.
 
 - **Parameters:**
@@ -61,11 +64,11 @@ Posts a comment to a specific article.
 
 ##### Example:
 ```python
-comment_response = post_comment('123456', 'John Doe', 'This is a great article!')
+comment_response = jeugdjournaal.post_comment('123456', 'John Doe', 'This is a great article!')
 print(comment_response)
 ```
 
-#### `get_items()`
+#### `jeugdjournaal.get_items()`
 Retrieves a list of articles currently featured on the Jeugdjournaal homepage.
 
 - **Returns:**
@@ -73,12 +76,12 @@ Retrieves a list of articles currently featured on the Jeugdjournaal homepage.
 
 ##### Example:
 ```python
-items = get_items()
+items = jeugdjournaal.get_items()
 for item in items:
     print(item['title'], item['id'])
 ```
 
-#### `read_item(id)`
+#### `jeugdjournaal.read_item(id)`
 Retrieves details of a specific article identified by `id`.
 
 - **Parameters:**
@@ -89,7 +92,7 @@ Retrieves details of a specific article identified by `id`.
 
 ##### Example:
 ```python
-article = read_item('123456')
+article = jeugdjournaal.read_item('123456')
 print(article['title'])
 print(article['content'])
 print(article['image_urls'])
