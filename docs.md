@@ -1,4 +1,4 @@
-# Jeugdjournaal Python Library Docs
+# Jeugdjournaal Python Library Documentation
 
 ### Functions
 ---
