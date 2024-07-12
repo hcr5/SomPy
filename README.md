@@ -1,7 +1,7 @@
 ## JeugdjournaalPY
 
 ### Overview
-The `jeugdjournaalpy` library simplifies interaction with the Jeugdjournaal website and API. It facilitates retrieving article details, participating in polls, managing comments, and exploring articles.
+The `jeugdjournaalpy` library simplifies interaction with the Jeugdjournaal website and API. It can retrieve article details, participate in polls, read/post comments, and explore articles.
 
 ### Installation
 Install `jeugdjournaalpy` via pip:
@@ -15,13 +15,13 @@ pip install jeugdjournaalpy
 import jeugdjournaalpy as jj
 
 # Example: Retrieve article details
-article_id = '123456'
+article_id = '2528081'
 article_details = jj.read_item(article_id)
 print(article_details['title'])
 print(article_details['content'])
 
 # Example: Vote in a poll
-poll_id = 'abcdef123456'
+poll_id = 'Zdf'
 vote_response = jj.vote_in_poll(poll_id)
 print(vote_response)
 
