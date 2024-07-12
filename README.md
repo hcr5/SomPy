@@ -12,21 +12,21 @@ pip install jeugdjournaal
 
 ## Example Usage
 ```python
-import jeugdjournaal as jj
+import jeugdjournaal
 
 # Example: Retrieve article details
 article_id = '2528081'
-article_details = jj.read_item(article_id)
+article_details = jeugdjournaal.read_item(article_id)
 print(article_details['title'])
 print(article_details['content'])
 
 # Example: Vote in a poll
 poll_id = 'Zdf'
-vote_response = jj.vote_in_poll(poll_id)
+vote_response = jeugdjournaal.vote_in_poll(poll_id)
 print(vote_response)
 
 # Example: Retrieve comments
-comments = jj.get_comments(article_id, limit=10)
+comments = jeugdjournaal.get_comments(article_id, limit=10)
 print(comments)
 ```
 
