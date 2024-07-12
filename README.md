@@ -1,3 +1,5 @@
+#THE DOCUMENTATION IS OUTDATED, WILL BE UPDATED TOMORROW
+
 # Jeugdjournaal (Youth News) Python
 The `jeugdjournaal` library simplifies interaction with the Jeugdjournaal website and API (https://jeugdjournaal.nl). It provides functionalities to retrieve article details, participate in polls, read/post comments, and explore articles.
 
