@@ -1,7 +1,41 @@
-## Jeugdjournaal API Documentation
+# Jeugdjournaal Python Library Docs
 
 ### Functions
 ---
+#### `jeugdjournaal.get_items()`
+Retrieves a list of articles currently featured on the Jeugdjournaal homepage.
+
+- **Returns:**
+  - List of dictionaries, each containing `title` and `id` of an article.
+
+##### Example:
+```python
+items = jeugdjournaal.get_items()
+for item in items:
+    print(item['title'], item['id'])
+```
+
+---
+
+#### `jeugdjournaal.read_item(id)`
+Retrieves details of a specific article identified by `id`.
+
+- **Parameters:**
+  - `id` (str): Unique identifier of the article.
+
+- **Returns:**
+  - Dictionary with `title`, `content`, and `image_urls` of the article.
+
+##### Example:
+```python
+article = jeugdjournaal.read_item('2528544')
+print(article['title'])
+print(article['content'])
+print(article['image_urls'])
+```
+
+---
+
 #### `jeugdjournaal.get_poll_hashes(item_id)`
 Retrieves poll information from a specific article identified by `item_id`.
 
@@ -73,34 +107,19 @@ print(comment_response)
 
 ---
 
-#### `jeugdjournaal.get_items()`
-Retrieves a list of articles currently featured on the Jeugdjournaal homepage.
-
-- **Returns:**
-  - List of dictionaries, each containing `title` and `id` of an article.
-
-##### Example:
-```python
-items = jeugdjournaal.get_items()
-for item in items:
-    print(item['title'], item['id'])
-```
-
----
-
-#### `jeugdjournaal.read_item(id)`
-Retrieves details of a specific article identified by `id`.
+#### `jeugdjournaal.get_comment_reactions(item_id, comment_id, limit)`
+Retrieves reactions to a specific comment associated with an article.
 
 - **Parameters:**
-  - `id` (str): Unique identifier of the article.
+  - `item_id` (str): Unique identifier of the article.
+  - `comment_id` (str): Unique identifier of the comment.
+  - `limit` (int): Maximum number of reactions to retrieve.
 
 - **Returns:**
-  - Dictionary with `title`, `content`, and `image_urls` of the article.
+  - JSON response containing reactions to the comment.
 
 ##### Example:
 ```python
-article = jeugdjournaal.read_item('2528544')
-print(article['title'])
-print(article['content'])
-print(article['image_urls'])
+reactions = jeugdjournaal.get_comment_reactions('2528544', '12345', 5)
+print(reactions)
 ```
