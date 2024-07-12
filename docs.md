@@ -13,7 +13,7 @@ Retrieves poll information from a specific article identified by `item_id`.
 
 ##### Example:
 ```python
-poll_hashes = jeugdjournaal.get_poll_hashes('123456')
+poll_hashes = jeugdjournaal.get_poll_hashes('2528544')
 print(poll_hashes)
 ```
 
@@ -30,7 +30,7 @@ Votes in a poll using the provided `vote_hash`.
 
 ##### Example:
 ```python
-vote_response = jeugdjournaal.vote_in_poll('abcdef123456')
+vote_response = jeugdjournaal.vote_in_poll('Zdf')
 print(vote_response)
 ```
 
@@ -48,7 +48,7 @@ Retrieves comments associated with a specific article.
 
 ##### Example:
 ```python
-comments = jeugdjournaal.get_comments('123456', 10)
+comments = jeugdjournaal.get_comments('2528544', 10)
 print(comments)
 ```
 
@@ -67,7 +67,7 @@ Posts a comment to a specific article.
 
 ##### Example:
 ```python
-comment_response = jeugdjournaal.post_comment('123456', 'John Doe', 'This is a great article!')
+comment_response = jeugdjournaal.post_comment('2528544', 'John Doe', 'This is a great article!')
 print(comment_response)
 ```
 
@@ -99,7 +99,7 @@ Retrieves details of a specific article identified by `id`.
 
 ##### Example:
 ```python
-article = jeugdjournaal.read_item('123456')
+article = jeugdjournaal.read_item('2528544')
 print(article['title'])
 print(article['content'])
 print(article['image_urls'])
