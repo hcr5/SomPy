@@ -1,4 +1,4 @@
-# API Documentation
+# Jeugdjournaal (Youth News) Python Library Documentation
 
 ## Functions
 
