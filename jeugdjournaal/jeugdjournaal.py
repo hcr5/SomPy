@@ -179,3 +179,5 @@ def get_items():
     items = [Item(element.get_text(strip=True), element.find_parent('a')['href'].split('/')[-1].split('-')[0]) for element in elements]
 
     return items
+
+#Jeugdjournaal Python Library by hcr5 (https://github.com/hcr5)
