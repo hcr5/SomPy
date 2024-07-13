@@ -151,5 +151,5 @@ Fetch a list of items from the main page of Jeugdjournaal.
 ```python
 items = jeugdjournaal.get_items()
 for item in items:
-    print(item.title, item.id)
+    print(item.title, item.id, item.published_at, item.modified_at)
 ```
