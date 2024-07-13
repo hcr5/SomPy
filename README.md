@@ -18,17 +18,17 @@ Here’s a quick example to get started:
 import jeugdjournaal
 
 # Read an article
-article = read_item(1234567)
+article = jeugdjournaal.read_item(1234567)
 print(article.title)
 print(article.content)
 
 # Get poll IDs from the article
-poll_ids = get_poll_ids(1234567)
+poll_ids = jeugdjournaal.get_poll_ids(1234567)
 print(poll_ids.id_1)
 print(poll_ids.id_2)
 
 # Vote in a poll
-vote_in_poll(poll_ids.id_1["id"])
+jeugdjournaal.vote_in_poll(poll_ids.id_1["id"])
 ```
 
 For more functions and detailed usage, refer to the [full documentation](https://github.com/hcr5/jeugdjournaal-python/blob/main/docs.md).
