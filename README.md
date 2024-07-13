@@ -18,12 +18,12 @@ Here’s a quick example to get started:
 import jeugdjournaal
 
 # Read an article
-article = jeugdjournaal.read_item(1234567)
+article = jeugdjournaal.read_item(2528544)
 print(article.title)
 print(article.content)
 
 # Get poll IDs from the article
-poll_ids = jeugdjournaal.get_poll_ids(1234567)
+poll_ids = jeugdjournaal.get_poll_ids(2528544)
 print(poll_ids.id_1)
 print(poll_ids.id_2)
 
