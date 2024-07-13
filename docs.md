@@ -30,8 +30,8 @@ Fetch poll IDs from an article by its ID (**Note**: Not all articles contain pol
 
 **Returns:**
 - `PollIds` object with attributes:
-  - `option_1` (dict): A dictionary with the keys "id" and "text" for the first poll option.
-  - `option_2` (dict): A dictionary with the keys "id" and "text" for the second poll option.
+  - `id_1` (str): The ID of the first poll option.
+  - `id_2` (str): The ID of the second poll option.
 
 **Example:**
 ```python
