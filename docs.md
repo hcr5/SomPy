@@ -144,6 +144,8 @@ Fetch a list of items from the main page of Jeugdjournaal.
 - `list` of `Item` objects, each with attributes:
   - `title` (str): The title of the item.
   - `id` (int): The ID of the item.
+  - `published_at` (str): The publication date of the article.
+  - `modified_at` (str): The modification date of the article.
 
 **Example:**
 ```python
