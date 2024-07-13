@@ -42,7 +42,7 @@ print(poll_ids.id_1, poll_ids.id_2)
 ---
 
 ### `vote_in_poll(vote_id)`
-Vote in a poll using its hash.
+Vote in a poll using its id.
 
 **Attributes:**
 - `vote_id` (str): The id of the poll option to vote for.
