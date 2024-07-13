@@ -1,4 +1,4 @@
-[# Jeugdjournaal Python Library
+# Jeugdjournaal (Dutch Youth News) Python Library
 
 A simple Python library for fetching and interacting with articles, polls, comments, and reactions from Jeugdjournaal.
 
