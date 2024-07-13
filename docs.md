@@ -123,7 +123,7 @@ for reaction in reactions:
 ---
 
 ### `post_comment(item_id, name, content)`
-Post a comment to an article.
+Post a comment to an article. (***Warning**: The comment will be visible on the Jeugdjournaal website when it passed moderation*)
 
 **Attributes:**
 - `item_id`: The ID of the article to post a comment to.
