@@ -2,6 +2,14 @@
 
 ---
 
+## Installation
+
+You can install the library via pip:
+
+```bash
+pip install jeugdjournaal
+```
+
 ### `read_item(item_id)`
 Fetch and parse an article from Jeugdjournaal by its ID.
 
