@@ -31,4 +31,4 @@ print(poll_ids.id_2)
 vote_in_poll(poll_ids.id_1["id"])
 ```
 
-For more functions and detailed usage, refer to the full documentation: [Documentation](https://github.com/hcr5/jeugdjournaal-python/blob/main/docs.md)
+For more functions and detailed usage, refer to the [full documentation](https://github.com/hcr5/jeugdjournaal-python/blob/main/docs.md).
