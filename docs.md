@@ -36,7 +36,7 @@ Fetch poll IDs from an article by its ID (**Note**: Not all articles contain pol
 **Example:**
 ```python
 poll_ids = jeugdjournaal.get_poll_ids(1234567)
-print(poll_ids.option_1, poll_ids.option_2)
+print(poll_ids.id_1, poll_ids.id_2)
 ```
 
 ---
