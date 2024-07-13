@@ -1,4 +1,3 @@
-```python
 # Jeugdjournaal (Youth News) Python Library Documentation
 
 ---
