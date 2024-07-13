@@ -1,4 +1,4 @@
-# Jeugdjournaal (Youth News) Python Library Documentation
+# Jeugdjournaal (Dutch Youth News) Python Library Documentation
 
 ---
 
