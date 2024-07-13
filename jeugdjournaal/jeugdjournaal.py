@@ -35,9 +35,11 @@ class Reaction:
         self.published_at = published_at
 
 class Item:
-    def __init__(self, title, id):
+    def __init__(self, id, title, published_at, modified_at):
         self.title = title
         self.id = id
+        self.published_at = published_at
+        self.modified_at = modified_at
 
 def read_item(item_id):
     try:
@@ -95,12 +97,12 @@ def get_poll_ids(item_id):
     
     return PollIds({"id": id_1, "text": id_1_name}, {"id": id_2, "text": id_2_name})
 
-def vote_in_poll(vote_hash):
+def vote_in_poll(vote_id):
     try:
-        url = f'https://jeugdjournaal.nl/api/poll/vote/{vote_hash}'
+        url = f'https://jeugdjournaal.nl/api/poll/vote/{vote_id}'
         _requests.post(url)
     except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error voting in poll {vote_hash}: {e}")
+        raise Exception(f"Error voting in poll {vote_id}: {e}")
 
 def get_poll_data(item_id):
     try:
@@ -131,7 +133,7 @@ def get_poll_data(item_id):
     
     return poll_results
 
-def get_comments(item_id, limit):
+def get_comments(item_id, limit=5):
     try:
         response = _requests.get(f"https://jeugdjournaal.nl/api/item/{item_id}/comments?limit={limit}")
         response.raise_for_status()
@@ -166,18 +168,15 @@ def post_comment(item_id, name, content):
     except _requests.exceptions.RequestException as e:
         raise Exception(f"Error posting comment for item {item_id}: {e}")
 
-def get_items():
+def get_items(query="" , amount=5, page=1):
     try:
-        r = _requests.get("https://jeugdjournaal.nl/")
+        url = f"https://jeugdjournaal.nl/api/search?page_size={amount}&page={page}&text={query}"
+        r = _requests.get(url=url)
         r.raise_for_status()
     except _requests.exceptions.RequestException as e:
         raise Exception(f"Error fetching items: {e}")
-    
-    soup = _BeautifulSoup(r.content, 'html.parser')
 
-    elements = soup.find_all(class_='sc-a2203b4a-5 ixVSEc')
-    items = [Item(element.get_text(strip=True), element.find_parent('a')['href'].split('/')[-1].split('-')[0]) for element in elements]
+    json_response = r.json()
 
+    items = [Item(item['id'], item['title'], item['publishedAt'], item['modifiedAt']) for item in json_response['items']]
     return items
-
-#Jeugdjournaal Python Library by hcr5 (https://github.com/hcr5)
