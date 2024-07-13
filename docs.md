@@ -137,8 +137,13 @@ jeugdjournaal.post_comment(1234567, 'John Doe', 'This is a test comment.')
 
 ---
 
-### `get_items()`
-Fetch a list of items from the main page of Jeugdjournaal.
+### `get_items(query, amount, page)`
+Fetch a list of items from Jeugdjournaal.
+
+**Parameters:**
+- `query`: The search term. Leave unchanged for the latest articles.
+- `amount`: The number of articles to retrieve.
+- `page`: The starting page for the search.
 
 **Returns:**
 - `list` of `Item` objects, each with attributes:
