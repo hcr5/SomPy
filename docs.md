@@ -49,13 +49,13 @@ Vote in a poll using its ID.
 
 **Example:**
 ```python
-jeugdjournaal.vote_in_poll(42)
+jeugdjournaal.vote_in_poll(ABC)
 ```
 
 ---
 
 ### `get_poll_data(item_id)`
-Fetch poll data from an article by its ID.
+Fetch poll data from an article by its ID. (Warning: Not all articles contain polls, it may raise an exception).
 
 **Attributes:**
 - `item_id`: The ID of the article to fetch poll data from.
