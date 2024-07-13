@@ -15,7 +15,7 @@ pip install jeugdjournaal
 Here’s a quick example to get started:
 
 ```python
-from jeugdjournaal import read_item, get_poll_ids, vote_in_poll
+import jeugdjournaal
 
 # Read an article
 article = read_item(1234567)
