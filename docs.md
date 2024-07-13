@@ -1,181 +1,153 @@
-import requests as _requests
-from bs4 import BeautifulSoup as _BeautifulSoup
-import json as _json
+# Jeugdjournaal (Youth News) Python Library Documentation
 
-class Article:
-    def __init__(self, title, content, images):
-        self.title = title
-        self.content = content
-        self.images = images
+---
 
-class PollIds:
-    def __init__(self, id_1, id_2):
-        self.id_1 = id_1
-        self.id_2 = id_2
+### `read_item(item_id)`
+Fetch and parse an article from Jeugdjournaal by its ID.
 
-class PollResults:
-    def __init__(self, total_votes, answers):
-        self.total_votes = total_votes
-        self.answers = answers
+**Attributes:**
+- `item_id` (str): The ID of the article to fetch.
 
-class Comment:
-    def __init__(self, id, content, name, pinned, published_at):
-        self.id = id
-        self.content = content
-        self.name = name
-        self.pinned = pinned
-        self.published_at = published_at
+**Returns:**
+- `Article` object with attributes:
+  - `title` (str): The title of the article.
+  - `content` (str): The content of the article.
+  - `images` (list): A list of image URLs in the article.
 
-class Reaction:
-    def __init__(self, id, content, name, pinned, published_at):
-        self.id = id
-        self.content = content
-        self.name = name
-        self.pinned = pinned
-        self.published_at = published_at
+**Example:**
+```python
+article = jeugdjournaal.read_item('1234567')
+print(article.title, article.content, article.images)
+```
 
-class Item:
-    def __init__(self, title, id):
-        self.title = title
-        self.id = id
+---
 
-def read_item(item_id):
-    try:
-        r = _requests.get(f"https://jeugdjournaal.nl/artikel/{item_id}")
-        r.raise_for_status()
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error reading article {item_id}: {e}")
-    
-    soup = _BeautifulSoup(r.content, 'html.parser')
+### `get_poll_ids(item_id)`
+Fetch poll IDs from an article by its ID.
 
-    title_element = soup.find(class_='sc-799cb68a-0 sc-f0a7871b-6 frnEMw fmrOZD')
-    title = title_element.get_text(strip=True) if title_element else 'No title found'
+**Attributes:**
+- `item_id` (str): The ID of the article to fetch poll IDs from.
 
-    content_elements = soup.find_all(class_='sc-5ad4567c-0 bAROSX')
-    content = '\n\n'.join(element.get_text(strip=True) for element in content_elements)
+**Returns:**
+- `PollIds` object with attributes:
+  - `id_1` (dict): A dictionary with the keys "id" and "text" for the first poll option.
+  - `id_2` (dict): A dictionary with the keys "id" and "text" for the second poll option.
 
-    image_urls = [img.get('src') for img in soup.find_all('img', src=True)]
+**Example:**
+```python
+poll_ids = jeugdjournaal.get_poll_ids('1234567')
+print(poll_ids.id_1, poll_ids.id_2)
+```
 
-    return Article(title, content, image_urls)
+---
 
-def get_poll_ids(item_id):
-    try:
-        response = _requests.get(f"https://jeugdjournaal.nl/artikel/{item_id}")
-        response.raise_for_status()
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error fetching article {item_id}: {e}")
-    
-    soup = _BeautifulSoup(response.text, 'html.parser')
-    next_data_script = soup.find('script', id='__NEXT_DATA__')
-    if not next_data_script:
-        raise Exception("Next data script not found")
-    
-    json_str = next_data_script.string
-    try:
-        data = _json.loads(json_str)
-    except ValueError as e:
-        raise Exception(f"Error parsing JSON data: {e}")
-    
-    content = data.get('props', {}).get('pageProps', {}).get('data', {}).get('content', [])
-    id_1 = id_2 = id_1_name = id_2_name = None
-    
-    for item in content:
-        if item.get('type') == 'poll':
-            poll_content = item.get('content', {})
-            answers = poll_content.get('answers', [])
-            if len(answers) >= 2:
-                id_1 = answers[0].get('hash')
-                id_2 = answers[1].get('hash')
-                id_1_name = answers[0].get('text')
-                id_2_name = answers[1].get('text')
-                break
-    
-    if not id_1 or not id_2:
-        raise Exception(f"No poll IDs found for {item_id}, maybe it doesn't contain any polls?")
-    
-    return PollIds({"id": id_1, "text": id_1_name}, {"id": id_2, "text": id_2_name})
+### `vote_in_poll(vote_hash)`
+Vote in a poll using its hash.
 
-def vote_in_poll(vote_hash):
-    try:
-        url = f'https://jeugdjournaal.nl/api/poll/vote/{vote_hash}'
-        _requests.post(url)
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error voting in poll {vote_hash}: {e}")
+**Attributes:**
+- `vote_hash` (str): The hash of the poll option to vote for.
 
-def get_poll_data(item_id):
-    try:
-        response = _requests.get(f"https://jeugdjournaal.nl/artikel/{item_id}")
-        response.raise_for_status()
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error fetching article {item_id}: {e}")
-    
-    soup = _BeautifulSoup(response.text, 'html.parser')
-    next_data_script = soup.find('script', id='__NEXT_DATA__')
-    if not next_data_script:
-        raise Exception("Next data script not found")
-    
-    json_str = next_data_script.string
-    try:
-        data = _json.loads(json_str)
-    except _json.JSONDecodeError as e:
-        raise Exception(f"Error decoding JSON data: {e}")
-    
-    poll_results = {}
-    
-    for item in data["props"]["pageProps"]["data"]["content"]:
-        if item["type"] == "poll":
-            total_votes = item["content"]["noOfVotes"]
-            answers = [{"text": answer["text"], "votes": answer["votes"]} for answer in item["content"]["answers"]]
-            poll_results = PollResults(total_votes, answers)
-            break
-    
-    return poll_results
+**Example:**
+```python
+jeugdjournaal.vote_in_poll('abc123')
+```
 
-def get_comments(item_id, limit):
-    try:
-        response = _requests.get(f"https://jeugdjournaal.nl/api/item/{item_id}/comments?limit={limit}")
-        response.raise_for_status()
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error fetching comments for item {item_id}: {e}")
-    
-    json_response = response.json()
-    comments = [Comment(item['id'], item['text'], item['name'], item['pinned'], item['publishedAt']) for item in json_response['items']]
+---
 
-    return comments
+### `get_poll_data(item_id)`
+Fetch poll data from an article by its ID.
 
-def get_comment_reactions(item_id, comment_id, limit):
-    try:
-        response = _requests.get(f"https://jeugdjournaal.nl/api/item/{item_id}/comments/{comment_id}?limit={limit}")
-        response.raise_for_status()
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error fetching comment reactions for item {item_id}, comment {comment_id}: {e}")
-    
-    json_response = response.json()
-    reactions = [Reaction(item['id'], item['text'], item['name'], item['pinned'], item['publishedAt']) for item in json_response['items']]
+**Attributes:**
+- `item_id` (str): The ID of the article to fetch poll data from.
 
-    return reactions
+**Returns:**
+- `PollResults` object with attributes:
+  - `total_votes` (int): The total number of votes.
+  - `answers` (list): A list of dictionaries with the keys "text" and "votes" for each poll answer.
 
-def post_comment(item_id, name, content):
-    payload = {
-        "name": name,
-        "text": content
-    }
-    try:
-        r = _requests.post(f"https://jeugdjournaal.nl/api/item/{item_id}/comments", json=payload)
-        r.raise_for_status()
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error posting comment for item {item_id}: {e}")
+**Example:**
+```python
+poll_data = jeugdjournaal.get_poll_data('1234567')
+print(poll_data.total_votes, poll_data.answers)
+```
 
-def get_items():
-    try:
-        r = _requests.get("https://jeugdjournaal.nl/")
-        r.raise_for_status()
-    except _requests.exceptions.RequestException as e:
-        raise Exception(f"Error fetching items: {e}")
-    
-    soup = _BeautifulSoup(r.content, 'html.parser')
+---
 
-    elements = soup.find_all(class_='sc-a2203b4a-5 ixVSEc')
-    items = [Item(element.get_text(strip=True), element.find_parent('a')['href'].split('/')[-1].split('-')[0]) for element in elements]
+### `get_comments(item_id, limit)`
+Fetch comments from an article by its ID.
 
-    return items
+**Attributes:**
+- `item_id` (str): The ID of the article to fetch comments from.
+- `limit` (int): The maximum number of comments to fetch.
+
+**Returns:**
+- `list` of `Comment` objects, each with attributes:
+  - `id` (str): The ID of the comment.
+  - `content` (str): The content of the comment.
+  - `name` (str): The name of the commenter.
+  - `pinned` (bool): Whether the comment is pinned.
+  - `published_at` (str): The publication date of the comment.
+
+**Example:**
+```python
+comments = jeugdjournaal.get_comments('1234567', 5)
+for comment in comments:
+    print(comment.id, comment.content, comment.name, comment.pinned, comment.published_at)
+```
+
+---
+
+### `get_comment_reactions(item_id, comment_id, limit)`
+Fetch reactions to a specific comment by its ID.
+
+**Attributes:**
+- `item_id` (str): The ID of the article containing the comment.
+- `comment_id` (str): The ID of the comment to fetch reactions for.
+- `limit` (int): The maximum number of reactions to fetch.
+
+**Returns:**
+- `list` of `Reaction` objects, each with attributes:
+  - `id` (str): The ID of the reaction.
+  - `content` (str): The content of the reaction.
+  - `name` (str): The name of the person who reacted.
+  - `pinned` (bool): Whether the reaction is pinned.
+  - `published_at` (str): The publication date of the reaction.
+
+**Example:**
+```python
+reactions = jeugdjournaal.get_comment_reactions('1234567', '890', 5)
+for reaction in reactions:
+    print(reaction.id, reaction.content, reaction.name, reaction.pinned, reaction.published_at)
+```
+
+---
+
+### `post_comment(item_id, name, content)`
+Post a comment to an article.
+
+**Attributes:**
+- `item_id` (str): The ID of the article to post a comment to.
+- `name` (str): The name of the commenter.
+- `content` (str): The content of the comment.
+
+**Example:**
+```python
+jeugdjournaal.post_comment('1234567', 'John Doe', 'This is a test comment.')
+```
+
+---
+
+### `get_items()`
+Fetch a list of items from the main page of Jeugdjournaal.
+
+**Returns:**
+- `list` of `Item` objects, each with attributes:
+  - `title` (str): The title of the item.
+  - `id` (str): The ID of the item.
+
+**Example:**
+```python
+items = jeugdjournaal.get_items()
+for item in items:
+    print(item.title, item.id)
+```
