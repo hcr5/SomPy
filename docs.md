@@ -23,7 +23,7 @@ print(article.title, article.content, article.images)
 ---
 
 ### `get_poll_ids(item_id)`
-Fetch poll IDs from an article by its ID (***Note**: Not all articles contain polls, it may raise an exception*).
+Fetch poll IDs from an article by its ID (**Note**: Not all articles contain polls, it may raise an exception).
 
 **Attributes:**
 - `item_id`: The ID of the article to fetch poll IDs from.
@@ -55,7 +55,7 @@ jeugdjournaal.vote_in_poll(ABC)
 ---
 
 ### `get_poll_data(item_id)`
-Fetch poll data from an article by its ID. (***Note**: Not all articles contain polls, it may raise an exception*).
+Fetch poll data from an article by its ID. (**Note**: Not all articles contain polls, it may raise an exception).
 
 **Attributes:**
 - `item_id`: The ID of the article to fetch poll data from.
